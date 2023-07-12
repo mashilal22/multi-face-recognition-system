@@ -1,0 +1,41 @@
+<!html>
+<head>
+
+</head>
+
+<body>
+   <form action="/regis" method = "POST">
+      <p>id <input type = "integer" name = "id" /></p>
+      <p>name <input type = "text" name = "name" /></p>
+      <!-- <p>picture <input type = "blob" name = "picture" /></p> -->
+
+      <button id="start-camera">Start Camera</button>
+      <video id="video" width="320" height="240" autoplay></video>
+      <button id="picture">Click Photo</button>
+      <canvas id="canvas" width="320" height="240"></canvas>
+
+      <p><input type = "submit" value = "Submit" /></p>
+   </form>
+
+   <script>
+      let camera_button = document.querySelector("#start-camera");
+      let video = document.querySelector("#video");
+      let click_button = document.querySelector("#picture");
+      let canvas = document.querySelector("#canvas");
+
+      camera_button.addEventListener('click', async function() {
+          let stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+          video.srcObject = stream;
+      });
+
+      click_button.addEventListener('click', function() {
+          canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+          let image_data_url = canvas.toDataURL('image/jpeg');
+
+          // data url of the image
+          console.log(image_data_url);
+      });
+   </script>
+</body>
+
+</html>
